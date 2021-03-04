@@ -1,0 +1,16 @@
+ports:
+  - port: 8080
+    visibility: public
+tasks:
+  - init: |
+      ./mvnw clean install -DskipTests
+    command: |
+      cd start-site
+      ../mvnw spring-boot:run
+vscode:
+  extensions:
+    - redhat.java
+    - pivotal.vscode-spring-boot
+    - vscjava.vscode-spring-boot-dashboard
+    - vscjava.vscode-spring-initializr
+    - asciidoctor.asciidoctor-vscode
