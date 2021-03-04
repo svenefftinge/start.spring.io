@@ -18,8 +18,10 @@ const Fields = ({
   onSubmit,
   onExplore,
   onShare,
+  onCodeOnline,
   refExplore,
   refSubmit,
+  refCodeOnline,
   refDependency,
   generating,
 }) => {
@@ -173,6 +175,13 @@ const Fields = ({
             Generate
           </Button>
         )}
+        <Button
+          id='code-online'
+          onClick={onCodeOnline}
+          refButton={refCodeOnline}
+        >
+          Open Workspace
+        </Button>
         <Button
           id='explore-project'
           onClick={onExplore}

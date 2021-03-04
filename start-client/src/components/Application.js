@@ -19,7 +19,7 @@ import { Fields, Loading } from './common/builder'
 import { Form } from './common/form'
 import { Header, SideLeft, SideRight } from './common/layout'
 import { InitializrContext } from './reducer/Initializr'
-import { getConfig, getInfo, getProject } from './utils/ApiUtils'
+import { getConfig, getInfo, getProject, getProjectDownloadURL } from './utils/ApiUtils'
 
 const Explore = lazy(() => import('./common/explore/Explore.js'))
 const Share = lazy(() => import('./common/share/Share.js'))
@@ -45,6 +45,7 @@ export default function Application() {
   const buttonExplore = useRef(null)
   const buttonDependency = useRef(null)
   const buttonSubmit = useRef(null)
+  const buttonCodeOnline = useRef(null)
 
   const windowsUtils = useWindowsUtils()
   useHash()
@@ -77,6 +78,13 @@ export default function Application() {
     if (project) {
       FileSaver.saveAs(project, `${get(values, 'meta.artifact')}.zip`)
     }
+  }
+
+  const onCodeOnline = async () => {
+    const url = `${windowsUtils.origin}/starter.zip`
+    dispatch({ type: 'UPDATE', payload: { explore: false, list: false } })
+    const downloadUrl = getProjectDownloadURL(url, values, get(dependencies, 'list'))
+    window.open(`https://gitpod.io/#URL=${btoa(downloadUrl).replaceAll('/','_').replaceAll('=','-')}/https://github.com/gitpod-io/start.spring.io`)
   }
 
   const onExplore = async () => {
@@ -141,8 +149,10 @@ export default function Application() {
                 onSubmit={onSubmit}
                 onShare={onShare}
                 onExplore={onExplore}
+                onCodeOnline={onCodeOnline}
                 refExplore={buttonExplore}
                 refSubmit={buttonSubmit}
+                refCodeOnline={buttonCodeOnline}
                 refDependency={buttonDependency}
                 generating={generating}
               />
